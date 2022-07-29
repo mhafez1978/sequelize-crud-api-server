@@ -1,0 +1,31 @@
+{
+  "name": "sequelize-crud-api-server",
+  "version": "1.0.0",
+  "description": "Using sequelize to define a model/table in our App database allowing us to populate this table with data. We will be able to perform Data manipulation like search/query data, do data insertion, replace/update or deletion which will trigger using a RESTFULL API call.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "serve": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhafez1978/sequelize-crud-api-server.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "mysql2",
+    "Sequelize",
+    "API's",
+    "Restfull HTTP Requests",
+    "REST",
+    "HTTP"
+  ],
+  "author": "Mohamed Hafez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhafez1978/sequelize-crud-api-server/issues"
+  },
+  "homepage": "https://github.com/mhafez1978/sequelize-crud-api-server#readme"
+}
