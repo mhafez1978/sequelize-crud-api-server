@@ -32,8 +32,29 @@ const deleteUsersModel = (req, res) => {
 };
 
 // ############# admin delete / destroy All Models ##################
-const deleteAllModels = (req,res) => {
-	return controllers.deleteAllModelsController(req, res);
+const deleteAllModels = (req, res) => {
+  return controllers.deleteAllModelsController(req, res);
+};
+
+// ############# admin create a 1 new user and save in Users Model/Table ##################
+const createUser = (req, res) => {
+  return controllers.createUserController(req, res);
+};
+
+const createSampleUsers = (req, res) => {
+  return controllers.bulkCreateUsersController(req, res);
+};
+
+const getAllUsers = (req, res) => {
+  return controllers.getAllUsersController(req, res);
+};
+
+const findUserById = (req, res) => {
+  return controllers.findUserByIdController(req, res);
+};
+
+const findUserByEmail = (req,res) => {
+	return controllers.findUserByEmailController(req, res);
 }
 
 module.exports = {
@@ -43,5 +64,11 @@ module.exports = {
   setupUsers,
   describeDB,
   deleteUsersModel,
-  deleteAllModels
+  deleteAllModels,
+  createUser,
+  createSampleUsers,
+  getAllUsers,
+  findUserById,
+  findUserByEmail,
+
 };

@@ -5,78 +5,39 @@ const User = connectT0DBThen.define(
   'User',
   {
     // Model attributes are defined here
-    'User Id': {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
-    'First Name': {
+    fname: {
       type: DataTypes.STRING,
       allowNull: false,
-      get() {
-        const rawValue = this.getDataValue('First Name');
-        return rawValue;
-      },
-      set(value) {
-        this.setDataValue('First Name', value);
-      },
+      defaultValue: 'user first name',
     },
-    'Last Name': {
+    lname: {
       type: DataTypes.STRING,
       // allowNull defaults to true
-      get() {
-        const rawValue = this.getDataValue('Last Name');
-        return rawValue;
-      },
-      set(value) {
-        this.setDataValue('Last Name', value);
-      },
     },
-    'User Username': {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
-      get() {
-        const rawValue = this.getDataValue('Last Name');
-        return rawValue;
-      },
+      defaultValue: 'username',
     },
-    'Date of Birth': {
+    dob: {
       type: DataTypes.DATEONLY,
     },
-    'User Email': {
+    email: {
       type: DataTypes.STRING,
-      allowNull: false,
       unique: true,
-      validate: {
-        isUnique: function (email, done) {
-          User.find({ where: { 'User Email': email } }).done(function (
-            err,
-            user
-          ) {
-            if (err) {
-              done(err);
-            }
-            if (user) {
-              done(new Error('Email already registered'));
-            }
-            done();
-          });
-        },
-      },
-      get() {
-        const rawValue = this.getDataValue('User Email');
-        return rawValue;
-      },
-      set(value) {
-        this.setDataValue('User Email', value);
-      },
+      defaultValue: 'email.domain.com',
     },
   },
   {
     // Other model options go here
     createdAt: 'Created At',
-    updatedAt: 'Last Modified At',
+    updatedAt: 'Last Updated',
     onDelete: 'cascade',
   }
 );

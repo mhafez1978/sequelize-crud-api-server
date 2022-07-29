@@ -1,5 +1,7 @@
+const { Op } = require('sequelize');
 const connectT0DBThen = require('../database/db.js');
 const models = require('../models/index');
+const UsersSample = require('../sample/data');
 
 // ############# Static Routes ##################
 const mainController = (req, res) => {
@@ -22,7 +24,9 @@ const dbCheckerController = async (req, res) => {
         'Houston we have a problem connecting.\nCheck your DB connection settings ...'
       );
       console.log('##########################');
-      res.send('Houston we have a problem connecting.\nCheck your DB connection settings ...');
+      res.send(
+        'Houston we have a problem connecting.\nCheck your DB connection settings ...'
+      );
     });
 };
 
@@ -103,6 +107,106 @@ const deleteUsersModelController = async (req, res) => {
     });
 };
 
+const createUserController = async (req, res) => {
+  const { fname, lname, uname, dob, email } = req.body;
+  if (
+    !fname ||
+    !uname ||
+    !dob ||
+    !email ||
+    fname === '' ||
+    uname === '' ||
+    dob === null ||
+    email === ''
+  ) {
+    return res.send(
+      'first name, username, date of birth, and email all required to create a user in db'
+    );
+  } else {
+    await models.User.create({
+      'First Name': fname,
+      'Last Name': lname,
+      Username: uname,
+      'Date of Birth': dob,
+      Email: email,
+    })
+      .then((results) => {
+        console.log('###########################');
+        console.log(results);
+        console.log('###########################');
+        res.send(results);
+      })
+      .catch((err) => {
+        console.log('###########################');
+        console.log(err);
+        console.log('###########################');
+        res.send(err);
+      });
+  }
+};
+
+const bulkCreateUsersController = async (req, res) => {
+  const user = UsersSample.map(async (each) => {
+    await models.User.create({
+      fname: each.fname,
+      lname: each.lname,
+      username: each.username,
+      dob: each.dob,
+      email: each.email,
+    });
+  });
+  console.log(user);
+  res.send(`We added of users to the db ...`);
+};
+
+const getAllUsersController = async (req, res) => {
+  const data = await models.User.findAll()
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+const findUserByIdController = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const user = await models.User.findOne({ where: { userId: id } })
+    .then((user) => {
+      if (!user || user === null) {
+        res.send('No user found by the provided id ...');
+      } else {
+        console.log(user);
+        res.send(user);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+const findUserByEmailController = async(req,res) => {
+	const email = req.body.email
+	const user = await models.User.findOne({where:{email:email}})
+	.then(user=>{
+		if(!user || user === null){
+			res.send("We can't find user matches the email provided ...")
+		}else{
+			console.log(user)
+			res.send(user)
+		}
+	})
+	.catch(err=>{
+		console.log(err)
+		res.send(err)
+	})
+}
+
+
 module.exports = {
   mainController,
   dbCheckerController,
@@ -111,4 +215,9 @@ module.exports = {
   describeDBController,
   deleteUsersModelController,
   deleteAllModelsController,
+  createUserController,
+  bulkCreateUsersController,
+  getAllUsersController,
+  findUserByIdController,
+  findUserByEmailController
 };
